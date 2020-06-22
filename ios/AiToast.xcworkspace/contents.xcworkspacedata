@@ -2,12 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Toast.swift">
-   </FileRef>
-   <FileRef
-      location = "group:AiToast-Bridging-Header.h">
-   </FileRef>
-   <FileRef
       location = "group:AiToast.xcodeproj">
    </FileRef>
 </Workspace>
