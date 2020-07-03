@@ -12,28 +12,28 @@ export enum Postion {
   BOTTOM = RNTAiToast.BOTTOM
 }
 const AiToast = {
-  show: function (
+  show: (
     message: string,
-    duration: Duration = Duration.SHORT
-  ): void  {
-    RNTAiToast.show(message, duration)
+    duration: Duration
+  ) => {
+    RNTAiToast.show(message, duration || Duration.SHORT)
   },
 
-  showWithGravity: function (
+  showWithGravity: (
     message: string,
-    duration: Duration = Duration.SHORT,
-    gravity: Postion = Postion.BOTTOM
-  ): void  {
-    RNTAiToast.showWithGravity(message, duration, gravity)
+    duration?: Duration ,
+    gravity?: Postion
+  ) => {
+    RNTAiToast.showWithGravity(message, duration || Duration.SHORT, gravity || Postion.BOTTOM)
   },
-  showWithGravityAndOffset: function(
+  showWithGravityAndOffset: (
     message: string,
-    duration: Duration = Duration.SHORT,
-    gravity: Postion = Postion.BOTTOM,
-    xOffset: number ,
-    yOffset: number = 40,
-  ): void {
-    RNTAiToast.showWithGravityAndOffset(message, duration, gravity, xOffset, yOffset);
+    duration?: Duration ,
+    gravity?: Postion ,
+    xOffset?: number ,
+    yOffset?: number ,
+  ) => {
+    RNTAiToast.showWithGravityAndOffset(message,duration || Duration.SHORT, gravity || Postion.BOTTOM, xOffset || 0, yOffset || 40);
   },
 }
 
