@@ -3,15 +3,18 @@
 ## Getting started
 
 `$ npm install react-native-aitoast --save`
+or
+`$ yarn add react-native-aitoast --save`
+
 
 ### Mostly automatic installation
 
-`$ react-native link react-native-aitoast`
+`$ cd ios & pod install`
 
 ## Usage
 ```javascript
-import AiToast from 'react-native-aitoast';
+import * as AiToast from 'react-native-aitoast';
+import AiToast,{Duration, Postion} from 'react-native-aitoast';
 
-// TODO: What to do with the module?
-AiToast;
+AiToast.show('msg', Duration.SHORT, Postion.BOTTOM)
 ```

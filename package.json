@@ -2,8 +2,8 @@
   "name": "react-native-aitoast",
   "title": "React Native AiToast",
   "version": "1.0.0",
-  "description": "TODO",
-  "main": "index.js",
+  "description": "一个简单的不被Modal,TextInput遮盖的toast组件",
+  "main": "index.ts",
   "files": [
     "README.md",
     "index.js",
@@ -23,7 +23,7 @@
   ],
   "author": {
     "name": "mollet",
-    "email": "yuanmaole@sourcehabit.com"
+    "email": "mollet_yuan@163.com"
   },
   "license": "MIT",
   "licenseFilename": "LICENSE",

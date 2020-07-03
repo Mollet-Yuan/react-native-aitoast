@@ -1,17 +1,17 @@
-#import "RNTAiToast.h"
-//#import "AiToast-swift.h"
+
 #import "UIView+Toast.h"
-s
-NSInteger const LRDRCTSimpleToastBottomOffset = 40;
+#import "RNTAiToast.h"
+
+@implementation RNTAiToast {
+    CGFloat _keyOffset;
+}
+
+NSInteger const LRDRCTSimpleToastBottomOffset = 48;
 double const LRDRCTSimpleToastShortDuration = 3.0;
 double const LRDRCTSimpleToastLongDuration = 5.0;
 NSInteger const LRDRCTSimpleToastGravityBottom = 1;
 NSInteger const LRDRCTSimpleToastGravityCenter = 2;
 NSInteger const LRDRCTSimpleToastGravityTop = 3;
-
-@implementation RNTAiToast {
-    CGFloat _keyOffset;
-}
 
 - (instancetype)init {
     if (self = [super init]) {
@@ -34,8 +34,7 @@ NSInteger const LRDRCTSimpleToastGravityTop = 3;
     
     int height = MIN(keyboardSize.height,keyboardSize.width);
     int width = MAX(keyboardSize.height,keyboardSize.width);
-    
-    _keyOffset = height;
+    _keyOffset = height + 44;
 }
 
 - (void)keyboardWillHiden:(NSNotification *)notification {
@@ -63,10 +62,25 @@ RCT_EXPORT_METHOD(showWithGravity:(NSString *)msg duration:(double)duration grav
     [self _show:msg duration:duration gravity:gravity.intValue];
 });
 
+RCT_EXPORT_METHOD(showWithGravityAndOffset:(NSString *)msg duration:(double)duration gravity:(nonnull NSNumber *)gravity  xOffset:(double)xOffset  yOffset:(double)yOffset{
+    _keyOffset = yOffset;
+    [self _show:msg duration:duration gravity:gravity.intValue];
+});
+
 - (void)_show:(NSString *)msg duration:(NSTimeInterval)duration gravity:(NSInteger)gravity {
     dispatch_async(dispatch_get_main_queue(), ^{
-        UIView *root = [[[[[UIApplication sharedApplication] delegate] window] rootViewController] view];
-        CGRect bound = root.bounds;
+        
+        UIWindow *window = [[[UIApplication sharedApplication] delegate] window];
+        NSArray *windows = [UIApplication sharedApplication].windows;
+        for (id windowView in windows) {
+            NSString *viewName = NSStringFromClass([windowView class]);
+            if ([@"UIRemoteKeyboardWindow" isEqualToString:viewName]) {
+               window = windowView;
+               break;
+            }
+        }
+
+        CGRect bound = window.bounds;
         bound.size.height -= _keyOffset;
         if (bound.size.height > LRDRCTSimpleToastBottomOffset*2) {
             bound.origin.y += LRDRCTSimpleToastBottomOffset;
@@ -74,7 +88,7 @@ RCT_EXPORT_METHOD(showWithGravity:(NSString *)msg duration:(double)duration grav
         }
         UIView *view = [[UIView alloc] initWithFrame:bound];
         view.userInteractionEnabled = NO;
-        [root addSubview:view];
+        [window addSubview:view];
         UIView __weak *blockView = view;
         id position;
         if (gravity == LRDRCTSimpleToastGravityTop) {
@@ -94,6 +108,10 @@ RCT_EXPORT_METHOD(showWithGravity:(NSString *)msg duration:(double)duration grav
                 [blockView removeFromSuperview];
             }];
     });
+}
++ (BOOL)requiresMainQueueSetup
+{
+    return NO;
 }
 
 @end
